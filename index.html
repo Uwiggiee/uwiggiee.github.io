@@ -70,10 +70,10 @@
         </div>
         <div class="row justify-content-center fs-5 text-center">
           <div class="col-md-4">
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi facere natus molestias consequatur perferendis ea veniam consequuntur eaque possimus hic?</p>
+            <p>Nama gua Ludwig, nama panjangnya Ludwig Alven Tama Lumban Tobing dan selamat datang di website portfolio gua yang gua bikin sendiri sambil belajar-belajar coding (masih pemula)</p>
           </div>
           <div class="col-md-4">
-            <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Laboriosam explicabo obcaecati amet repellat necessitatibus rem magnam voluptatum nam, consectetur, velit suscipit sunt odio aspernatur ipsa.</p>
+            <p>di website ini berisi tentang data diri gua dan juga beberapa informasi tentang diri gua yang telah gua berikan di website ini. selamat menjelajahi website buatan gua</p>
           </div>
         </div>
       </div>
@@ -98,25 +98,25 @@
         <div class="row">
           <div class="col-md-4 mb-3">
             <div class="card">
-              <img src="img/projects/1.jpg" class="card-img-top" alt="Project 1" />
+              <img src="img/projects/Spanduk.jpg" class="card-img-top" alt="Project 1" />
               <div class="card-body">
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                <p class="card-text">pekerjaan sampingan gw, gw menerima pesanan pembuatan disain spanduk</p>
               </div>
             </div>
           </div>
           <div class="col-md-4 mb-3">
             <div class="card">
-              <img src="img/projects/2.jpg" class="card-img-top" alt="Project 2" />
+              <img src="img/projects/PPT.jpg" class="card-img-top" alt="Project 2" />
               <div class="card-body">
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                <p class="card-text">pekerjaan sampingan gw, gw menerima jasa sebagai operator PPT/Live streaming</p>
               </div>
             </div>
           </div>
           <div class="col-md-4 mb-3">
             <div class="card">
-              <img src="img/projects/3.jpg" class="card-img-top" alt="Project 3" />
+              <img src="img/projects/Coding.jpg" class="card-img-top" alt="Project 3" />
               <div class="card-body">
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                <p class="card-text">nah kalo yang ini masih belajar sih jadi belum menerima orderan hehe :)</p>
               </div>
             </div>
           </div>
@@ -142,21 +142,29 @@
         </div>
         <div class="row justify-content-center">
           <div class="col-md-7">
-            <form>
+            <div class="alert alert-success alert-dismissible fade show d-none my-alert" role="alert">
+              <strong>Terima Kasih!</strong> Pesan anda telah kami terima
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            <form name="submit-to-google-sheet">
               <div class="mb-3">
                 <label for="name" class="form-label">Your Name</label>
-                <input type="name" class="form-control" id="name" aria-describedby="name" />
+                <input type="name" class="form-control" id="name" aria-describedby="name" name="nama" />
               </div>
               <div class="mb-3">
                 <label for="email" class="form-label">Email</label>
-                <input type="email" class="form-control" id="email" aria-describedby="email" />
+                <input type="email" class="form-control" id="email" aria-describedby="email" name="email" />
                 <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
               </div>
               <div class="mb-3">
                 <label for="pesan" class="form-label">Your Messages</label>
-                <textarea class="form-control" id="pesan" rows="3"></textarea>
+                <textarea class="form-control" id="pesan" rows="3" name="pesan"></textarea>
               </div>
-              <button type="submit" class="btn btn-success">Submit</button>
+              <button type="submit" class="btn btn-success btn-kirim">Submit</button>
+              <button class="btn btn-primary btn-loading d-none" type="button" disabled>
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                Loading...
+              </button>
             </form>
           </div>
         </div>
@@ -175,5 +183,34 @@
 
     <!-- javascript -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+    <!-- bagian kontak masuk js -->
+    <script>
+      const scriptURL = "https://script.google.com/macros/s/AKfycbyE8PGvuMCE8iZJJPZPO7ri4llBP0FmIWfhizuzmqUWl3U9_bsPQyuhY7uqpiiKCpTc/exec";
+      const form = document.forms["submit-to-google-sheet"];
+      const btnKirim = document.querySelector(".btn-kirim");
+      const btnLoading = document.querySelector(".btn-loading");
+      const myAlert = document.querySelector(".my-alert");
+
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        // ketika tombol submit di klik, tampilkan tombol loading hilangkan tombol kirim
+        btnLoading.classList.toggle("d-none");
+        btnKirim.classList.toggle("d-none");
+
+        fetch(scriptURL, { method: "POST", body: new FormData(form) })
+          .then((response) => {
+            // tampilkan tombol kirim, hilangkan tombol loading
+          btnLoading.classList.toggle("d-none");
+          btnKirim.classList.toggle("d-none");
+          // tampilkan allert
+          myAlert.classList.toggle('d-none')
+          // reset formnya
+          form.reset();
+          console.log("Success!", response)
+        })
+          .catch((error) => console.error("Error!", error.message));
+      });
+    </script>
   </body>
 </html>
